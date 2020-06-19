@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cheney.common.dao.RoleDao">
+    <select id="selectByUserId" resultType="com.cheney.common.po.Role">
+        SELECT * FROM sec_user_role sur left join sec_role sr on sur.roleId=sr.id where sur.userId=#{userId}
+    </select>
+</mapper>

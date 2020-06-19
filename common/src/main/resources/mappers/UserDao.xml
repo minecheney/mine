@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cheney.common.dao.UserDao">
+    <select id="findByUsernameOrEmailOrPhone" resultType="com.cheney.common.po.User">
+        select * from sec_user where email=#{email} or phone=#{phone} or username=#{username}
+    </select>
+</mapper>
