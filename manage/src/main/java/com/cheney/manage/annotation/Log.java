@@ -1,4 +1,4 @@
-package com.cheney.manage.security.annotation;
+package com.cheney.manage.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

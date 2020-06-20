@@ -45,6 +45,11 @@ spring:
       pool-name: MineHikariCP
       max-lifetime: 60000
       connection-timeout: 30000
+
+  aop:
+    proxy-target-class: true
+    auto: true
+
   # 服务模块
   devtools:
     restart:

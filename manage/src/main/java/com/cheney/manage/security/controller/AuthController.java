@@ -3,6 +3,7 @@ package com.cheney.manage.security.controller;
 import com.cheney.common.common.ApiResponse;
 import com.cheney.common.common.Status;
 import com.cheney.common.exception.SecurityException;
+import com.cheney.manage.annotation.Log;
 import com.cheney.manage.security.payload.LoginRequest;
 import com.cheney.manage.security.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,13 +42,16 @@ public class AuthController {
      * 登录
      */
     @PostMapping("/login")
+    @Log("登录")
     public ApiResponse login(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmailOrPhone(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext()
                 .setAuthentication(authentication);
 
+        log.info("authentication: {}", authentication);
         String jwt = jwtUtil.createJWT(authentication, loginRequest.getRememberMe());
+        log.info("jwt: " + jwt);
         return ApiResponse.ofSuccess(jwt);
     }
 

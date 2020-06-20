@@ -7,7 +7,7 @@ import com.cheney.common.common.Status;
 import com.cheney.common.exception.SecurityException;
 import com.cheney.manage.security.util.JwtUtil;
 import com.cheney.manage.security.util.ResponseUtil;
-import com.cheney.manage.service.CustomUserDetailsService;
+import com.cheney.manage.security.service.CustomUserDetailsService;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

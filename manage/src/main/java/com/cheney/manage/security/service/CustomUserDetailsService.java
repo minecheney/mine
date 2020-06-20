@@ -1,4 +1,4 @@
-package com.cheney.manage.service;
+package com.cheney.manage.security.service;
 
 import com.cheney.common.dao.PermissionDao;
 import com.cheney.common.dao.RoleDao;

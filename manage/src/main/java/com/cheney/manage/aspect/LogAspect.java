@@ -1,7 +1,14 @@
-package com.cheney.manage.security.aspect;
+package com.cheney.manage.aspect;
 
+import com.cheney.common.po.Log;
+import com.cheney.common.utils.RequestHolder;
+import com.cheney.common.utils.StringUtils;
+import com.cheney.common.utils.ThrowableUtil;
+import com.cheney.manage.service.LogService;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -21,20 +28,21 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class LogAspect {
 
-//    private final LogService logService;
+    private final LogService logService;
 
     ThreadLocal<Long> currentTime = new ThreadLocal<>();
 
-//    public LogAspect(LogService logService) {
-//        this.logService = logService;
-//    }
+    public LogAspect(LogService logService) {
+        this.logService = logService;
+    }
 
     /**
      * 配置切入点
      */
-    @Pointcut("@annotation(com.cheney.manage.security.annotation.Log)")
+    @Pointcut("@annotation(com.cheney.manage.annotation.Log)")
     public void logPointcut() {
         // 该方法无方法体,主要为了让同类中其他方法使用此切入点
+        log.info("切入点");
     }
 
     /**
@@ -47,10 +55,11 @@ public class LogAspect {
         Object result;
         currentTime.set(System.currentTimeMillis());
         result = joinPoint.proceed();
-        Log log = new Log("INFO",System.currentTimeMillis() - currentTime.get());
+        Log sysLog = new Log("INFO", System.currentTimeMillis() - currentTime.get());
+        log.info("执行时长: {}", System.currentTimeMillis() - currentTime.get());
         currentTime.remove();
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
-        logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request),joinPoint, log);
+        logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request), joinPoint, sysLog);
         return result;
     }
 
@@ -58,21 +67,23 @@ public class LogAspect {
      * 配置异常通知
      *
      * @param joinPoint join point for advice
-     * @param e exception
+     * @param e         exception
      */
     @AfterThrowing(pointcut = "logPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        Log log = new Log("ERROR",System.currentTimeMillis() - currentTime.get());
+        Log sysLog = new Log("ERROR",System.currentTimeMillis() - currentTime.get());
+        log.info("error: {}", "asdf");
         currentTime.remove();
-        log.setExceptionDetail(ThrowableUtil.getStackTrace(e).getBytes());
+        sysLog.setExceptionDetail(ThrowableUtil.getStackTrace(e).getBytes());
         HttpServletRequest request = RequestHolder.getHttpServletRequest();
-        logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request), (ProceedingJoinPoint)joinPoint, log);
+//        logService.save(getUsername(), StringUtils.getBrowser(request), StringUtils.getIp(request), (ProceedingJoinPoint)joinPoint, sysLog);
     }
 
     public String getUsername() {
         try {
-            return SecurityUtils.getCurrentUsername();
-        }catch (Exception e){
+//            return SecurityUtils.getCurrentUsername();
+            return null;
+        } catch (Exception e) {
             return "";
         }
     }

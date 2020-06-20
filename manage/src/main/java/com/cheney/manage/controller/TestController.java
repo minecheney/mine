@@ -1,6 +1,6 @@
 package com.cheney.manage.controller;
 
-import com.cheney.manage.security.annotation.Log;
+import com.cheney.manage.annotation.Log;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

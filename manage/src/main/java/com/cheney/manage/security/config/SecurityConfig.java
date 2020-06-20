@@ -88,7 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         WebSecurity and = web.ignoring().and();
-        System.out.println(customConfig.getIgnores());
         // 忽略 GET
         customConfig.getIgnores().getGet().forEach(url -> and.ignoring().antMatchers(HttpMethod.GET, url));
 
