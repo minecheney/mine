@@ -2,6 +2,7 @@ package com.cheney.manage.aspect;
 
 import com.cheney.common.po.Log;
 import com.cheney.common.utils.RequestHolder;
+import com.cheney.common.utils.SecurityUtils;
 import com.cheney.common.utils.StringUtils;
 import com.cheney.common.utils.ThrowableUtil;
 import com.cheney.manage.service.LogService;
@@ -81,8 +82,7 @@ public class LogAspect {
 
     public String getUsername() {
         try {
-//            return SecurityUtils.getCurrentUsername();
-            return null;
+            return SecurityUtils.getCurrentUsername();
         } catch (Exception e) {
             return "";
         }
